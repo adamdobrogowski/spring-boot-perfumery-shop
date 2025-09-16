@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${perfume.id == null} ? 'Dodaj Produkt' : 'Edytuj Produkt'">Formularz Produktu</title>
+</head>
+<body>
+
+<h1 th:text="${perfume.id == null} ? 'Dodaj nowy produkt' : 'Edytuj produkt'">Tytuł Formularza</h1>
+
+<form th:action="${perfume.id == null} ? @{/admin/products/add} : @{/admin/products/edit/{id}(id=${perfume.id})}"
+      th:object="${perfume}" method="post">
+
+    <div>
+        <label for="name">Nazwa:</label><br>
+        <input type="text" id="name" th:field="*{name}">
+        <p style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    </div>
+    <div>
+        <label for="brand">Marka:</label><br>
+        <select id="brand" th:field="*{brandId}">
+            <option value="">-- Wybierz markę --</option>
+            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+        </select>
+        <p style="color:red" th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}"></p>
+    </div>
+    <div>
+        <label for="category">Kategoria:</label><br>
+        <select id="category" th:field="*{categoryId}">
+            <option value="">-- Wybierz kategorię --</option>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+        <p style="color:red" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></p>
+    </div>
+    <div>
+        <label for="concentration">Koncentracja:</label><br>
+        <select id="concentration" th:field="*{concentration}">
+            <option value="">-- Wybierz koncentrację --</option>
+            <option th:each="conc : ${concentrations}" th:value="${conc}" th:text="${conc.displayName}"></option>
+        </select>
+        <p style="color:red" th:if="${#fields.hasErrors('concentration')}" th:errors="*{concentration}"></p>
+    </div>
+    <div>
+        <label for="price">Cena:</label><br>
+        <input type="number" step="0.01" id="price" th:field="*{price}">
+        <p style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+    </div>
+    <div>
+        <label for="capacity">Pojemność (ml):</label><br>
+        <input type="number" id="capacity" th:field="*{capacity}">
+        <p style="color:red" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></p>
+    </div>
+    <div>
+        <label for="description">Opis:</label><br>
+        <textarea id="description" th:field="*{description}" rows="4" cols="50"></textarea>
+        <p style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+    </div>
+    <div>
+        <label for="imageUrl">Ścieżka do obrazka (np. /images/obrazek.jpg):</label><br>
+        <input type="text" id="imageUrl" th:field="*{imageUrl}" size="50">
+    </div>
+    <br>
+
+    <button type="submit" th:text="${perfume.id == null} ? 'Dodaj Produkt' : 'Zapisz Zmiany'">Dodaj Produkt</button>
+</form>
+<br>
+<a th:href="@{/admin/products}">Anuluj i wróć do listy</a>
+
+</body>
+</html>

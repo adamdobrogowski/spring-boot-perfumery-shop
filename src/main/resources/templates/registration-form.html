@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Rejestracja</title>
+</head>
+<body>
+<h1>Załóż nowe konto</h1>
+
+<form th:action="@{/register}" th:object="${userDto}" method="post">
+  <div style="color:red" th:if="${#fields.hasGlobalErrors()}">
+    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+  </div>
+
+  <div>
+    <label for="firstName">Imię:</label><br>
+    <input type="text" id="firstName" th:field="*{firstName}"/>
+    <p style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+  </div>
+  <div>
+    <label for="lastName">Nazwisko:</label><br>
+    <input type="text" id="lastName" th:field="*{lastName}"/>
+    <p style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+  </div>
+  <div>
+    <label for="email">E-mail:</label><br>
+    <input type="email" id="email" th:field="*{email}"/>
+    <p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+  </div>
+  <div>
+    <label for="password">Hasło:</label><br>
+    <input type="password" id="password" th:field="*{password}"/>
+    <p style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+  </div>
+
+  <div>
+    <label for="confirmPassword">Powtórz hasło:</label><br>
+    <input type="password" id="confirmPassword" th:field="*{confirmPassword}"/>
+  </div>
+
+  <br>
+  <div>
+    <button type="submit">Zarejestruj się</button>
+  </div>
+</form>
+
+<a th:href="@{/}">Powrót na stronę główną</a>
+</body>
+</html>

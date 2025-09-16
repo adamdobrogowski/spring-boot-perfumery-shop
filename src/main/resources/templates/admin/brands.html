@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Zarządzaj Markami</title>
+</head>
+<body>
+<h1>Zarządzaj Markami</h1>
+<a th:href="@{/admin/dashboard}">Powrót do dashboardu</a>
+<hr>
+
+<h2>Dodaj nową markę</h2>
+<form th:action="@{/admin/brands/add}" th:object="${newBrand}" method="post">
+  <div>
+    <label for="name">Nazwa marki:</label>
+    <input type="text" id="name" th:field="*{name}" required>
+  </div>
+  <div>
+    <label for="country">Kraj pochodzenia:</label>
+    <input type="text" id="country" th:field="*{countryOfOrigin}">
+  </div>
+  <br>
+  <button type="submit">Dodaj Markę</button>
+</form>
+
+<hr>
+
+<h2>Istniejące marki</h2>
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nazwa</th>
+    <th>Kraj Pochodzenia</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="brand : ${brands}">
+    <td th:text="${brand.id}">1</td>
+    <td th:text="${brand.name}">Chanel</td>
+    <td th:text="${brand.countryOfOrigin}">Francja</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

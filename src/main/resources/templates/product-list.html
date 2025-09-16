@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Produktów</title>
+</head>
+<body>
+<div style="background-color: #f2f2f2; padding: 10px; margin-bottom: 20px;">
+    <a th:href="@{/}" style="margin-right: 15px;">Strona Główna</a>
+    <a th:href="@{/products}" style="margin-right: 15px;">Produkty</a>
+
+    <a th:href="@{/cart}" style="margin-right: 15px;">Koszyk</a>
+
+    <span th:if="${#authorization.expression('isAnonymous()')}">
+        <a th:href="@{/register}" style="margin-right: 15px;">Zarejestruj się</a>
+        <a th:href="@{/login}">Zaloguj się</a>
+    </span>
+
+    <span th:if="${#authorization.expression('isAuthenticated()')}">
+
+    <a th:unless="${#authorization.expression('hasRole(''ADMIN'')')}"
+       th:href="@{/my-profile}" style="margin-right: 15px;">Mój Profil</a>
+
+    <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+       th:href="@{/admin/dashboard}" style="margin-right: 15px;">Panel Admina</a>
+
+    <form th:action="@{/logout}" method="post" style="display: inline;">
+        <button type="submit" style="background:none; border:none; padding:0; color:blue; text-decoration:underline; cursor:pointer;">
+            Wyloguj się
+        </button>
+    </form>
+</span>
+</div>
+<div th:unless="${#lists.isEmpty(perfumes)}">
+
+    <div th:each="perfume : ${perfumes}" style="border: 1px solid black; margin: 10px; padding: 10px; width: 300px;">
+
+        <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" width="100"/>
+
+        <h2 th:text="${perfume.name}">Nazwa Perfum</h2>
+        <p>Marka: <strong th:text="${perfume.brand?.name}">Nazwa Marki</strong></p>
+        <p>Koncentracja: <strong th:text="${perfume.concentration?.displayName}">Koncentracja</strong></p>
+        <p>Cena: <strong th:text="${perfume.price} + ' zł'">Cena</strong></p>
+        <p th:text="${perfume.description}">Opis produktu.</p>
+
+        <form th:action="@{/cart/add/{perfumeId}(perfumeId=${perfume.id})}" method="post">
+            <button type="submit">Dodaj do koszyka</button>
+        </form>
+
+    </div>
+
+</div>
+
+<br>
+<a th:href="@{/}">Powrót na stronę główną</a>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Panel Admina</title>
+</head>
+<body>
+<h1>Witaj w panelu administratora!</h1>
+
+<h2>Statystyki</h2>
+<div id="stats-container">
+    <p>Liczba produktów w bazie: <strong id="product-count">Ładowanie...</strong></p>
+    <p>Liczba złożonych zamówień: <strong id="order-count">Ładowanie...</strong></p>
+    <p>Liczba zarejestrowanych użytkowników: <strong id="user-count">Ładowanie...</strong></p>
+</div>
+
+<hr>
+<p>Wybierz, czym chcesz zarządzać:</p>
+<ul>
+    <li><a th:href="@{/admin/products}">Zarządzaj Produktami</a></li>
+    <li><a th:href="@{/admin/brands}">Zarządzaj Markami</a></li>
+    <li><a th:href="@{/admin/orders}">Zarządzaj Zamówieniami</a></li>
+</ul>
+<hr>
+<div style="display: flex; align-items: center; gap: 15px;">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Wyloguj się</button>
+    </form>
+    <a th:href="@{/products}">Przejdź do sklepu</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/dashboard/stats')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('product-count').textContent = data.productCount;
+                document.getElementById('order-count').textContent = data.orderCount;
+                document.getElementById('user-count').textContent = data.userCount;
+            })
+            .catch(error => {
+                console.error('Błąd podczas pobierania statystyk:', error);
+                document.getElementById('stats-container').textContent = 'Nie udało się załadować statystyk.';
+            });
+    });
+</script>
+
+</body>
+</html>

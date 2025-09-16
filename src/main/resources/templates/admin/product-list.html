@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Zarządzanie Produktami</title>
+</head>
+<body>
+<h1>Lista Produktów</h1>
+<a th:href="@{/admin/dashboard}">Powrót do dashboardu</a>
+<a th:href="@{/admin/products/add}" style="margin-left: 20px; font-weight: bold;">+ Dodaj nowy produkt</a>
+<br><br>
+<br><br>
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nazwa</th>
+    <th>Marka</th>
+    <th>Cena</th>
+    <th>Koncentracja</th>
+    <th>Akcje</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="perfume : ${perfumes}">
+    <td th:text="${perfume.id}">1</td>
+    <td th:text="${perfume.name}">Nazwa Perfum</td>
+    <td th:text="${perfume.brand.name}">Nazwa Marki</td>
+    <td th:text="${perfume.concentration.displayName}">Koncentracja</td>
+    <td th:text="${perfume.price}">299.99</td>
+    <td>
+      <a th:href="@{/admin/products/edit/{id}(id=${perfume.id})}">Edytuj</a>
+
+      <form th:action="@{/admin/products/delete/{id}(id=${perfume.id})}" method="post" style="display:inline; margin-left: 5px;">
+        <button type="submit"
+                onclick="return confirm('Czy na pewno chcesz usunąć ten produkt?')"
+                style="background:none; border:none; padding:0; color:red; text-decoration:underline; cursor:pointer;">
+          Usuń
+        </button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

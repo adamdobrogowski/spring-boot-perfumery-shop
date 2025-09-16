@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Twój Koszyk</title>
+</head>
+<body>
+<h1>Twój Koszyk</h1>
+
+<div th:if="${#lists.isEmpty(cartItems)}">
+    <p>Twój koszyk jest pusty.</p>
+</div>
+
+<div th:unless="${#lists.isEmpty(cartItems)}">
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Produkt</th>
+            <th>Cena jednostkowa</th>
+            <th>Ilość</th>
+            <th>Cena całkowita</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${cartItems}">
+            <td th:text="${item.perfume.name}">Nazwa Perfum</td>
+            <td th:text="${item.perfume.price} + ' zł'">Cena</td>
+            <td th:text="${item.quantity}">Ilość</td>
+            <td th:text="${item.price} + ' zł'">Cena Całkowita</td>
+        </tr>
+        </tbody>
+    </table>
+    <h3 th:text="'Suma: ' + ${totalPrice} + ' zł'">Suma: 0.00 zł</h3>
+</div>
+
+<div th:unless="${#lists.isEmpty(cartItems)}">
+    <h3 th:text="'Suma: ' + ${totalPrice} + ' zł'">Suma: 0.00 zł</h3>
+
+    <form th:action="@{/order/place}" method="post">
+        <button type="submit">Złóż zamówienie</button>
+    </form>
+</div>
+
+<br>
+<a th:href="@{/products}">Kontynuuj zakupy</a>
+
+</body>
+</html>
