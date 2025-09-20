@@ -64,14 +64,14 @@
     </form>
 </div>
 
-<div th:if="${#lists.isEmpty(perfumes)}">
+<div th:if="${perfumePage.empty}">
     <p>Brak produktów spełniających kryteria.</p>
 </div>
 
-<div th:unless="${#lists.isEmpty(perfumes)}">
-    <div th:each="perfume : ${perfumes}" style="border: 1px solid black; margin: 10px; padding: 10px; width: 300px;">
-        <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" width="100"/>
+<div th:if="${not perfumePage.empty}">
+    <div th:each="perfume : ${perfumePage.content}" style="border: 1px solid black; margin: 10px; padding: 10px; width: 300px; display: inline-block; vertical-align: top;">
         <a th:href="@{/products/{id}(id=${perfume.id})}" style="text-decoration: none; color: black;">
+            <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" width="100"/>
             <h2 th:text="${perfume.name}">Nazwa Perfum</h2>
         </a>
         <p>Marka: <strong th:text="${perfume.brand?.name}">Nazwa Marki</strong></p>
@@ -82,6 +82,24 @@
             <button type="submit">Dodaj do koszyka</button>
         </form>
     </div>
+</div>
+
+<div th:if="${perfumePage.totalPages > 1}" style="margin-top: 20px;">
+    <nav>
+        <ul style="list-style: none; display: flex; gap: 5px; justify-content: center; padding: 0;">
+            <li th:if="${perfumePage.hasPrevious()}">
+                <a th:href="@{/products(page=${perfumePage.number - 1}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}">« Poprzednia</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, perfumePage.totalPages - 1)}">
+                <a th:href="@{/products(page=${i}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}"
+                   th:text="${i + 1}"
+                   th:style="${i == perfumePage.number} ? 'font-weight: bold; text-decoration: none; color: black;' : 'text-decoration: underline; color: blue;'"></a>
+            </li>
+            <li th:if="${perfumePage.hasNext()}">
+                <a th:href="@{/products(page=${perfumePage.number + 1}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}">Następna »</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <br>
