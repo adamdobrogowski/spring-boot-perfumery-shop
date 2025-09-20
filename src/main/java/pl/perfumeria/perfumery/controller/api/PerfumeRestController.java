@@ -9,7 +9,6 @@ import pl.perfumeria.perfumery.domain.Perfume;
 import pl.perfumeria.perfumery.repository.PerfumeRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/perfumes")

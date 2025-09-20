@@ -1,11 +1,8 @@
-version: '3.8'
 services:
   app:
     build: .
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       - db
   db:
@@ -16,5 +13,7 @@ services:
       - POSTGRES_PASSWORD=secret
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 volumes:
   postgres_data:
