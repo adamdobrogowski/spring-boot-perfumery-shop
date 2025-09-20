@@ -16,7 +16,8 @@ import java.math.BigDecimal;
 public class Perfume {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "perfume-seq")
     private Long id;
     private String name;
 

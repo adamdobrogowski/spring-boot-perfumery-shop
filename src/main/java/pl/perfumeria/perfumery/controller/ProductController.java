@@ -53,6 +53,6 @@ public class ProductController {
         Specification<Perfume> specByCategory = categoryId != null ? PerfumeSpecification.hasCategory(categoryId) : null;
         Specification<Perfume> specByKeyword = keyword != null && !keyword.isEmpty() ? PerfumeSpecification.nameContains(keyword) : null;
 
-        return Specification.where(specByBrand).and(specByCategory).and(specByKeyword);
+        return Specification.<Perfume>unrestricted().and(specByBrand).and(specByCategory).and(specByKeyword);
     }
 }
