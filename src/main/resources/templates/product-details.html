@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${perfume.name}">Szczegóły Produktu</title>
+</head>
+<body>
+<a th:href="@{/products}">Powrót do listy produktów</a>
+<hr>
+
+<div th:if="${perfume != null}">
+  <h1 th:text="${perfume.name}">Nazwa Perfum</h1>
+  <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" style="max-width: 300px;">
+
+  <h3>Szczegóły:</h3>
+  <ul>
+    <li th:text="|Marka: ${perfume.brand?.name}|"></li>
+    <li th:text="|Kategoria: ${perfume.category?.name}|"></li>
+    <li th:text="|Koncentracja: ${perfume.concentration?.displayName}|"></li>
+    <li th:text="|Pojemność: ${perfume.capacity} ml|"></li>
+  </ul>
+
+  <h2>Cena: <span th:text="${perfume.price} + ' zł'" style="color: green;"></span></h2>
+
+  <h3>Opis:</h3>
+  <p th:text="${perfume.description}"></p>
+
+  <form th:action="@{/cart/add/{perfumeId}(perfumeId=${perfume.id})}" method="post">
+    <button type="submit" style="padding: 10px 20px; font-size: 16px;">Dodaj do koszyka</button>
+  </form>
+</div>
+
+<div th:if="${perfume == null}">
+  <h2>Nie znaleziono produktu.</h2>
+</div>
+
+</body>
+</html>

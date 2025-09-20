@@ -4,12 +4,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.perfumeria.perfumery.domain.Perfume;
 import pl.perfumeria.perfumery.repository.BrandRepository;
 import pl.perfumeria.perfumery.repository.CategoryRepository;
 import pl.perfumeria.perfumery.repository.PerfumeRepository;
 import pl.perfumeria.perfumery.repository.PerfumeSpecification;
+
+import java.util.Optional;
 
 @Controller
 public class ProductController {
@@ -48,4 +51,18 @@ public class ProductController {
 
         return "product-list";
     }
+
+    @GetMapping("/products/{id}")
+    public String showProductDetails(@PathVariable Long id, Model model) {
+        Optional<Perfume> perfumeOptional = perfumeRepository.findById(id);
+        if (perfumeOptional.isPresent()) {
+            model.addAttribute("perfume", perfumeOptional.get());
+            return "product-details";
+        } else {
+            return "redirect:/products";
+        }
+    }
+
+
+
 }

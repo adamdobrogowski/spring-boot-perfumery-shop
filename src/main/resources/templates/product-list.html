@@ -71,7 +71,9 @@
 <div th:unless="${#lists.isEmpty(perfumes)}">
     <div th:each="perfume : ${perfumes}" style="border: 1px solid black; margin: 10px; padding: 10px; width: 300px;">
         <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" width="100"/>
-        <h2 th:text="${perfume.name}">Nazwa Perfum</h2>
+        <a th:href="@{/products/{id}(id=${perfume.id})}" style="text-decoration: none; color: black;">
+            <h2 th:text="${perfume.name}">Nazwa Perfum</h2>
+        </a>
         <p>Marka: <strong th:text="${perfume.brand?.name}">Nazwa Marki</strong></p>
         <p>Koncentracja: <strong th:text="${perfume.concentration?.displayName}">Koncentracja</strong></p>
         <p>Cena: <strong th:text="${perfume.price} + ' zł'">Cena</strong></p>

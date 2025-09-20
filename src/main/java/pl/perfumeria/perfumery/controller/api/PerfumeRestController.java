@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.perfumeria.perfumery.domain.Perfume;
 import pl.perfumeria.perfumery.repository.PerfumeRepository;
-import pl.perfumeria.perfumery.service.PerfumeService;
 
 import java.util.List;
 

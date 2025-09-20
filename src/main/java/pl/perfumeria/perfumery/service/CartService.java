@@ -45,4 +45,24 @@ public class CartService {
         items.clear();
     }
 
+    public void incrementQuantity(Long perfumeId) {
+        findItembyPerfumeId(perfumeId).ifPresent(item -> {
+            if (item.getQuantity() < 99) {
+                item.setQuantity(item.getQuantity() + 1);
+            }
+        });
+    }
+
+    public void decrementQuantity(Long perfumeId) {
+        findItembyPerfumeId(perfumeId).ifPresent(item -> {
+            if (item.getQuantity() > 1) {
+                item.setQuantity(item.getQuantity() - 1);
+            }
+        });
+    }
+
+    public void removeItem(Long perfumeId) {
+        items.removeIf(item -> item.getPerfume().getId().equals(perfumeId));
+    }
+
 }

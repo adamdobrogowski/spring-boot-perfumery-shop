@@ -1,5 +1,8 @@
 package pl.perfumeria.perfumery.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum PerfumeConcentration {
 
     EAU_DE_COLOGNE("Woda kolońska (EDC)"),

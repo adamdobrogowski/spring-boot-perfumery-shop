@@ -1,5 +1,6 @@
 package pl.perfumeria.perfumery.domain;
 
+
 public enum OrderStatus {
     NEW("Nowe"),
     PROCESSING("W trakcie realizacji"),
@@ -7,13 +8,13 @@ public enum OrderStatus {
     DELIVERED("Dostarczone"),
     CANCELLED("Anulowane");
 
-    private final String displatName;
+    private final String displayName;
 
-    OrderStatus(final String displatName) {
-        this.displatName = displatName;
+    OrderStatus(final String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getDisplatName() {
-        return displatName;
+    public String getDisplayName() {
+        return displayName;
     }
 }

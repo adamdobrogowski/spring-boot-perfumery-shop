@@ -35,4 +35,22 @@ public class CartController {
         return "cart-view";
     }
 
+    @PostMapping("/cart/increment/{perfumeId}")
+    public String incrementCartQuantity(@PathVariable Long perfumeId) {
+        cartService.incrementQuantity(perfumeId);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/cart/decrement/{perfumeId}")
+    public String decrementCartQuantity(@PathVariable Long perfumeId) {
+        cartService.decrementQuantity(perfumeId);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/cart/remove/{perfumeId}")
+    public String removeItemFromCart(@PathVariable Long perfumeId) {
+        cartService.removeItem(perfumeId);
+        return "redirect:/cart";
+    }
+
 }

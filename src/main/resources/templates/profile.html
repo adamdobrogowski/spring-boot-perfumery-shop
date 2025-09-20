@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mój Profil</title>
+</head>
+<body>
+<div style="background-color: #f2f2f2; padding: 10px; margin-bottom: 20px;">
+    <a th:href="@{/}">Strona Główna</a>
+</div>
+
+<h1>Mój Profil</h1>
+
+<p th:text="|Witaj, ${user.firstName}!|">Witaj na swoim profilu!</p>
+<p>Jesteś zalogowany jako: <strong th:text="${user.email}"></strong></p>
+
+<hr>
+<h2>Historia Twoich zamówień</h2>
+
+<div th:if="${#lists.isEmpty(orders)}">
+    <p>Nie złożyłeś jeszcze żadnych zamówień.</p>
+</div>
+
+<table th.unless="${#lists.isEmpty(orders)}" border="1">
+    <thead>
+    <tr>
+        <th>Numer zamówienia</th>
+        <th>Data</th>
+        <th>Status</th>
+        <th>Suma</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}">123</td>
+        <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">18-09-2025 14:00</td>
+        <td th:text="${order.status.displayName}">Nowe</td>
+        <td th:text="${order.totalPrice} + ' zł'">199.99 zł</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
