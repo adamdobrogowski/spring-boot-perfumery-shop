@@ -14,7 +14,7 @@
 
       <div class="col-md-6">
         <p class="lead text-muted" th:text="${perfume.brand?.name}">Marka</p>
-        <h1 class="display-5 fw-bold" th:text="${perfume.name}">Nazwa Perfum</h1>
+        <h1 class="display-5 fw-bold" th:text="${perfume.name}">Nazwa</h1>
         <hr>
 
         <p class="fs-5" th:text="${perfume.description}"></p>
@@ -37,7 +37,7 @@
   </div>
 
   <div th:if="${perfume == null}" class="alert alert-warning text-center mt-5">
-    <h2>Nie znaleziono produktu.</h2>
+    <h2>Nie znaleziono produktu</h2>
     <a th:href="@{/products}" class="btn btn-primary mt-3">Wróć do listy produktów</a>
   </div>
 

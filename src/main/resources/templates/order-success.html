@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head><title>Zamówienie złożone</title></head>
+<head th:replace="~{fragments/header :: head('Zamówienie Złożone')}"></head>
 <body>
-<h1>Dziękujemy za złożenie zamówienia!</h1>
-<p>Twoje zamówienie zostało przyjęte do realizacji.</p>
-<a th:href="@{/products}">Wróć do sklepu</a>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <h1 class="card-title text-success">✔</h1>
+                    <h2 class="display-5">Dziękujemy za złożenie zamówienia!</h2>
+                    <p class="lead mt-3">Twoje zamówienie zostało przyjęte do realizacji. Otrzymałeś od nas e-mail z potwierdzeniem.</p>
+                    <hr class="my-4">
+                    <p>Możesz śledzić status swojego zamówienia na swoim profilu.</p>
+                    <div class="mt-4">
+                        <a th:href="@{/products}" class="btn btn-secondary btn-lg">Kontynuuj zakupy</a>
+                        <a th:href="@{/my-profile}" class="btn btn-primary btn-lg">Zobacz Moje Zamówienia</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

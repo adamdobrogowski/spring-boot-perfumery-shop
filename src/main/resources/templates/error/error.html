@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Wystąpił błąd</title>
-</head>
-<body style="text-align: center; font-family: sans-serif;">
-<h1>Wystąpił nieoczekiwany błąd</h1>
-<p>Pracujemy nad jego naprawieniem. Prosimy, spróbuj ponownie później.</p>
-<a href="/">Wróć na stronę główną</a>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Wystąpił Błąd')}"></head>
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 text-center">
+            <h1 class="display-1 fw-bold text-danger">Błąd</h1>
+            <p class="fs-3">Wystąpił nieoczekiwany błąd serwera.</p>
+            <p class="lead">
+                Nasz zespół został poinformowany o problemie. Przepraszamy za utrudnienia.
+            </p>
+            <a th:href="@{/}" class="btn btn-primary mt-3">Wróć na stronę główną</a>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

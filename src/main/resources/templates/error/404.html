@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Nie znaleziono strony (404)</title>
-</head>
-<body style="text-align: center; font-family: sans-serif;">
-<h1>Błąd 404</h1>
-<h2>Strona, której szukasz, nie istnieje.</h2>
-<p>Sprawdź, czy adres URL jest poprawny lub wróć na stronę główną.</p>
-<a href="/">Przejdź na stronę główną</a>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Nie znaleziono strony')}"></head>
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 text-center">
+            <h1 class="display-1 fw-bold">404</h1>
+            <p class="fs-3"> <span class="text-danger">Ups!</span> Strona nie została znaleziona.</p>
+            <p class="lead">
+                Przepraszamy, strona której szukasz, nie istnieje, została zmieniona lub jest tymczasowo niedostępna.
+            </p>
+            <a th:href="@{/}" class="btn btn-primary mt-3">Wróć na stronę główną</a>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

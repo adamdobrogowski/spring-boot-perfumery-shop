@@ -1,64 +1,68 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Twój Koszyk</title>
-</head>
+<head th:replace="~{fragments/header :: head('Twój Koszyk')}"></head>
 <body>
-<h1>Twój Koszyk</h1>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
 
-<div th:if="${#lists.isEmpty(cartItems)}">
-    <p>Twój koszyk jest pusty.</p>
-</div>
+<main class="container mt-4">
+    <h1 class="mb-4">Twój Koszyk</h1>
 
-<div th:unless="${#lists.isEmpty(cartItems)}">
-    <table th:unless="${#lists.isEmpty(cartItems)}" border="1" style="width: 100%; text-align: center;">
-        <thead>
-        <tr>
-            <th>Produkt</th>
-            <th>Cena jednostkowa</th>
-            <th>Ilość</th>
-            <th>Cena całkowita</th>
-            <th>Akcje</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${cartItems}">
-            <td th:text="${item.perfume.name}">Nazwa Perfum</td>
-            <td th:text="${item.perfume.price} + ' zł'">Cena</td>
-            <td>
-                <form th:action="@{/cart/decrement/{id}(id=${item.perfume.id})}" method="post" style="display: inline;">
-                    <button type="submit" th:disabled="${item.quantity == 1}">-</button>
+    <div th:if="${#lists.isEmpty(cartItems)}" class="alert alert-info">
+        <p class="mb-0">Twój koszyk jest pusty.</p>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(cartItems)}">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col">Produkt</th>
+                    <th scope="col" class="text-center">Cena jednostkowa</th>
+                    <th scope="col" class="text-center">Ilość</th>
+                    <th scope="col" class="text-end">Cena całkowita</th>
+                    <th scope="col" class="text-center">Akcje</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${cartItems}">
+                    <td th:text="${item.perfume.name}">Nazwa Perfum</td>
+                    <td class="text-center" th:text="${item.perfume.price} + ' zł'">Cena</td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <form th:action="@{/cart/decrement/{id}(id=${item.perfume.id})}" method="post" class="me-2">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm" th:disabled="${item.quantity == 1}">-</button>
+                            </form>
+                            <span th:text="${item.quantity}" class="fw-bold">1</span>
+                            <form th:action="@{/cart/increment/{id}(id=${item.perfume.id})}" method="post" class="ms-2">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm" th:disabled="${item.quantity == 99}">+</button>
+                            </form>
+                        </div>
+                    </td>
+                    <td class="text-end fw-bold" th:text="${item.price} + ' zł'">Cena Całkowita</td>
+                    <td class="text-center">
+                        <form th:action="@{/cart/remove/{perfumeId}(perfumeId=${item.perfume.id})}" method="post">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <a th:href="@{/products}" class="btn btn-secondary">Kontynuuj zakupy</a>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <h3 class="mb-3">Suma: <span class="text-success fw-bold" th:text="${totalPrice} + ' zł'">0.00 zł</span></h3>
+                <form th:action="@{/order/place}" method="post">
+                    <button type="submit" class="btn btn-lg btn-success">Złóż zamówienie</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</main>
 
-                <span th:text="${item.quantity}" style="margin: 0 10px; font-weight: bold;">1</span>
-
-                <form th:action="@{/cart/increment/{id}(id=${item.perfume.id})}" method="post" style="display: inline;">
-                    <button type="submit" th:disabled="${item.quantity == 99}">+</button>
-                </form>
-            </td>
-            <td th:text="${item.price} + ' zł'">Cena Całkowita</td>
-            <td>
-                <form th:action="@{/cart/remove/{perfumeId}(perfumeId=${item.perfume.id})}" method="post">
-                    <button type="submit">Usuń</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <h3 th:text="'Suma: ' + ${totalPrice} + ' zł'">Suma: 0.00 zł</h3>
-</div>
-
-<div th:unless="${#lists.isEmpty(cartItems)}">
-    <h3 th:text="'Suma: ' + ${totalPrice} + ' zł'">Suma: 0.00 zł</h3>
-
-    <form th:action="@{/order/place}" method="post">
-        <button type="submit">Złóż zamówienie</button>
-    </form>
-</div>
-
-<br>
-<a th:href="@{/products}">Kontynuuj zakupy</a>
-
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
