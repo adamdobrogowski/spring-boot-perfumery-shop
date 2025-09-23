@@ -1,6 +1,6 @@
 # Aplikacja E-commerce "Perfumery" w Spring Boot
 
-## O Projekcie 📖
+## O Projekcie
 
 **Perfumery** to w pełni funkcjonalna, nowoczesna aplikacja webowa typu e-commerce, zbudowana od zera w Javie z wykorzystaniem frameworka Spring Boot. Projekt demonstruje kompleksowe podejście do tworzenia aplikacji backendowych, od modelowania danych i logiki biznesowej, przez zaawansowane zabezpieczenia, aż po konteneryzację z użyciem Dockera.
 
@@ -8,7 +8,7 @@ Aplikacja symuluje działanie niszowej perfumerii, implementując kluczowe proce
 
 ---
 
-## Stos Technologiczny 🛠️
+## Stos Technologiczny 
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
@@ -28,7 +28,7 @@ Aplikacja symuluje działanie niszowej perfumerii, implementując kluczowe proce
 
 ---
 
-## Kluczowe Funkcjonalności ✨
+## Kluczowe Funkcjonalności
 
 Projekt implementuje szereg zaawansowanych funkcjonalności kluczowych dla nowoczesnych aplikacji webowych:
 
@@ -57,7 +57,7 @@ Projekt implementuje szereg zaawansowanych funkcjonalności kluczowych dla nowoc
 
 ---
 
-## Uruchomienie Projektu 🚀
+## Uruchomienie Projektu
 
 Do uruchomienia aplikacji lokalnie wymagany jest zainstalowany **Docker** i **Docker Compose**.
 
