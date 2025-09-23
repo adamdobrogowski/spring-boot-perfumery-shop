@@ -10,6 +10,7 @@ import pl.perfumeria.perfumery.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -59,5 +60,19 @@ public class OrderServiceImpl implements OrderService {
         cartService.clearCart();
 
         emailService.sendOrderConfirmationEmail(currentUser, savedOrder);
+    }
+
+    @Override
+    public Optional<Order> findOrderById(Long id) {
+        return orderRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderStatus(Long orderId, OrderStatus newStatus) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono zamówienia o ID: " + orderId));
+
+        order.setStatus(newStatus);
     }
 }

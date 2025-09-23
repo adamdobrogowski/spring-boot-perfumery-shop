@@ -38,7 +38,7 @@
                               th:text="${order.status.displayName}"></span>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-outline-info">Szczegóły</a>
+                    <a th:href="@{/admin/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-info">Szczegóły</a>
                 </td>
             </tr>
             </tbody>

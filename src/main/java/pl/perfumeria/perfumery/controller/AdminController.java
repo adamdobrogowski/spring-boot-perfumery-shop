@@ -6,12 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.perfumeria.perfumery.domain.Brand;
+import pl.perfumeria.perfumery.domain.OrderStatus;
 import pl.perfumeria.perfumery.domain.PerfumeConcentration;
 import pl.perfumeria.perfumery.dto.PerfumeDto;
 import pl.perfumeria.perfumery.repository.BrandRepository;
 import pl.perfumeria.perfumery.repository.CategoryRepository;
 import pl.perfumeria.perfumery.repository.OrderRepository;
 import pl.perfumeria.perfumery.repository.PerfumeRepository;
+import pl.perfumeria.perfumery.service.OrderService;
 import pl.perfumeria.perfumery.service.PerfumeService;
 
 import java.util.Optional;
@@ -25,14 +27,18 @@ public class AdminController {
     private final CategoryRepository categoryRepository;
     private final PerfumeService perfumeService;
     private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
 
-    public AdminController(PerfumeRepository perfumeRepository, BrandRepository brandRepository, CategoryRepository categoryRepository, PerfumeService perfumeService, OrderRepository orderRepository) {
+    public AdminController(PerfumeRepository perfumeRepository, BrandRepository brandRepository,
+                           CategoryRepository categoryRepository, PerfumeService perfumeService,
+                           OrderRepository orderRepository, OrderService orderService) {
         this.perfumeRepository = perfumeRepository;
         this.brandRepository = brandRepository;
         this.categoryRepository = categoryRepository;
         this.perfumeService = perfumeService;
         this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @GetMapping("/dashboard")
@@ -118,5 +124,21 @@ public class AdminController {
         model.addAttribute("orders", orderRepository.findAll());
         return "admin/order-list";
     }
+
+    @GetMapping("/orders/{id}")
+    public String showOrderDetails(@PathVariable Long id, Model model) {
+        orderService.findOrderById(id).ifPresent(order -> {
+            model.addAttribute("order", order);
+            model.addAttribute("statuses", OrderStatus.values());
+        });
+        return "admin/order-details";
+    }
+
+    @PostMapping("/orders/update-status")
+    public String updateOrderStatus(@RequestParam Long orderId, @RequestParam OrderStatus status) {
+        orderService.updateOrderStatus(orderId, status);
+        return "redirect:/admin/orders/" + orderId;
+    }
+
 
 }
