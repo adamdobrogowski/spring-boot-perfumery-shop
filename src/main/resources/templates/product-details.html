@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title th:text="${perfume.name}">Szczegóły Produktu</title>
-</head>
+<head th:replace="~{fragments/header :: head(${perfume != null} ? ${perfume.name} : 'Nie znaleziono produktu')}"></head>
 <body>
-<a th:href="@{/products}">Powrót do listy produktów</a>
-<hr>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
 
-<div th:if="${perfume != null}">
-  <h1 th:text="${perfume.name}">Nazwa Perfum</h1>
-  <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" style="max-width: 300px;">
+<main class="container mt-4">
 
-  <h3>Szczegóły:</h3>
-  <ul>
-    <li th:text="|Marka: ${perfume.brand?.name}|"></li>
-    <li th:text="|Kategoria: ${perfume.category?.name}|"></li>
-    <li th:text="|Koncentracja: ${perfume.concentration?.displayName}|"></li>
-    <li th:text="|Pojemność: ${perfume.capacity} ml|"></li>
-  </ul>
+  <div th:if="${perfume != null}">
+    <div class="row g-5">
+      <div class="col-md-6">
+        <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" class="img-fluid rounded shadow-sm">
+      </div>
 
-  <h2>Cena: <span th:text="${perfume.price} + ' zł'" style="color: green;"></span></h2>
+      <div class="col-md-6">
+        <p class="lead text-muted" th:text="${perfume.brand?.name}">Nazwa Marki</p>
+        <h1 class="display-5 fw-bold" th:text="${perfume.name}">Nazwa Perfum</h1>
+        <hr>
 
-  <h3>Opis:</h3>
-  <p th:text="${perfume.description}"></p>
+        <p class="fs-5" th:text="${perfume.description}"></p>
 
-  <form th:action="@{/cart/add/{perfumeId}(perfumeId=${perfume.id})}" method="post">
-    <button type="submit" style="padding: 10px 20px; font-size: 16px;">Dodaj do koszyka</button>
-  </form>
-</div>
+        <ul class="list-unstyled mt-4">
+          <li><strong>Kategoria:</strong> <span th:text="${perfume.category?.name}"></span></li>
+          <li><strong>Koncentracja:</strong> <span th:text="${perfume.concentration?.displayName}"></span></li>
+          <li><strong>Pojemność:</strong> <span th:text="${perfume.capacity} + ' ml'"></span></li>
+        </ul>
 
-<div th:if="${perfume == null}">
-  <h2>Nie znaleziono produktu.</h2>
-</div>
+        <h2 class="my-4 text-primary fw-bold" th:text="${perfume.price} + ' zł'">Cena</h2>
 
+        <form th:action="@{/cart/add/{perfumeId}(perfumeId=${perfume.id})}" method="post">
+          <button type="submit" class="btn btn-success btn-lg">
+            <i class="bi bi-cart-plus-fill"></i> Dodaj do koszyka
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div th:if="${perfume == null}" class="alert alert-warning text-center mt-5">
+    <h2>Nie znaleziono produktu.</h2>
+    <a th:href="@{/products}" class="btn btn-primary mt-3">Wróć do listy produktów</a>
+  </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

@@ -1,109 +1,95 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista Produktów</title>
-</head>
+<head th:replace="~{fragments/header :: head('Lista Produktów')}"></head>
 <body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
 
-<div style="background-color: #f2f2f2; padding: 10px; margin-bottom: 20px;">
-    <a th:href="@{/}" style="margin-right: 15px;">Strona Główna</a>
-    <a th:href="@{/products}" style="margin-right: 15px;">Produkty</a>
-    <a th:href="@{/cart}" style="margin-right: 15px;"><b>Koszyk</b></a>
-    <span th:if="${#authorization.expression('isAnonymous()')}">
-        <a th:href="@{/register}" style="margin-right: 15px;">Zarejestruj się</a>
-        <a th:href="@{/login}">Zaloguj się</a>
-    </span>
-    <span th:if="${#authorization.expression('isAuthenticated()')}">
-        <a th:unless="${#authorization.expression('hasRole(''ADMIN'')')}"
-           th:href="@{/my-profile}" style="margin-right: 15px;">Mój Profil</a>
-        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-           th:href="@{/admin/dashboard}" style="margin-right: 15px;">Panel Admina</a>
-        <form th:action="@{/logout}" method="post" style="display: inline;">
-            <button type="submit" style="background:none; border:none; padding:0; color:blue; text-decoration:underline; cursor:pointer;">
-                Wyloguj się
-            </button>
-        </form>
-    </span>
-</div>
-
-<h1>Nasze Perfumy</h1>
-
-<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background-color: #f9f9f9;">
-    <h3>Filtry</h3>
-    <form th:action="@{/products}" method="get" style="display: flex; gap: 15px; align-items: center;">
-        <div>
-            <label for="keyword">Szukaj po nazwie:</label><br>
-            <input type="text" id="keyword" name="keyword" th:value="${selectedKeyword}">
-        </div>
-        <div>
-            <label for="brand">Marka:</label><br>
-            <select id="brand" name="brandId">
-                <option value="">-- Wszystkie --</option>
-                <option th:each="brand : ${brands}"
-                        th:value="${brand.id}"
-                        th:text="${brand.name}"
-                        th:selected="${brand.id == selectedBrandId}"></option>
-            </select>
-        </div>
-        <div>
-            <label for="category">Kategoria:</label><br>
-            <select id="category" name="categoryId">
-                <option value="">-- Wszystkie --</option>
-                <option th:each="category : ${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}"
-                        th:selected="${category.id == selectedCategoryId}"></option>
-            </select>
-        </div>
-        <div>
-            <br>
-            <button type="submit">Filtruj</button>
-            <a th:href="@{/products}" style="margin-left: 10px;">Wyczyść</a>
-        </div>
-    </form>
-</div>
-
-<div th:if="${perfumePage.empty}">
-    <p>Brak produktów spełniających kryteria.</p>
-</div>
-
-<div th:if="${not perfumePage.empty}">
-    <div th:each="perfume : ${perfumePage.content}" style="border: 1px solid black; margin: 10px; padding: 10px; width: 300px; display: inline-block; vertical-align: top;">
-        <a th:href="@{/products/{id}(id=${perfume.id})}" style="text-decoration: none; color: black;">
-            <img th:src="@{${perfume.imageUrl}}" alt="Zdjęcie produktu" width="100"/>
-            <h2 th:text="${perfume.name}">Nazwa Perfum</h2>
-        </a>
-        <p>Marka: <strong th:text="${perfume.brand?.name}">Nazwa Marki</strong></p>
-        <p>Koncentracja: <strong th:text="${perfume.concentration?.displayName}">Koncentracja</strong></p>
-        <p>Cena: <strong th:text="${perfume.price} + ' zł'">Cena</strong></p>
-        <p th:text="${perfume.description}">Opis produktu.</p>
-        <form th:action="@{/cart/add/{perfumeId}(perfumeId=${perfume.id})}" method="post">
-            <button type="submit">Dodaj do koszyka</button>
-        </form>
+<main class="container mt-4">
+    <div class="text-center py-4">
+        <h1 class="display-4">Nasze Perfumy</h1>
+        <p class="lead">Odkryj kolekcję starannie wyselekcjonowanych zapachów od najlepszych światowych marek.</p>
     </div>
-</div>
 
-<div th:if="${perfumePage.totalPages > 1}" style="margin-top: 20px;">
-    <nav>
-        <ul style="list-style: none; display: flex; gap: 5px; justify-content: center; padding: 0;">
-            <li th:if="${perfumePage.hasPrevious()}">
-                <a th:href="@{/products(page=${perfumePage.number - 1}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}">« Poprzednia</a>
+    <div class="card mb-4">
+        <div class="card-header">
+            Filtry
+        </div>
+        <div class="card-body">
+            <form th:action="@{/products}" method="get" class="row g-3 align-items-end">
+                <div class="col-lg-4 col-md-12">
+                    <label for="keyword" class="form-label">Szukaj po nazwie:</label>
+                    <input type="text" id="keyword" name="keyword" th:value="${selectedKeyword}" class="form-control">
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="brand" class="form-label">Marka:</label>
+                    <select id="brand" name="brandId" class="form-select">
+                        <option value="">Wszystkie</option>
+                        <option th:each="brand : ${brands}"
+                                th:value="${brand.id}"
+                                th:text="${brand.name}"
+                                th:selected="${brand.id == selectedBrandId}"></option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="category" class="form-label">Kategoria:</label>
+                    <select id="category" name="categoryId" class="form-select">
+                        <option value="">Wszystkie</option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}"
+                                th:selected="${category.id == selectedCategoryId}"></option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-12 d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Filtruj</button>
+                    <a th:href="@{/products}" class="btn btn-outline-secondary">Wyczyść</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
+        <div th:if="${perfumePage.empty}" class="col-12">
+            <p class="alert alert-info">Brak produktów spełniających kryteria.</p>
+        </div>
+        <div th:unless="${perfumePage.empty}" th:each="perfume : ${perfumePage.content}" class="col">
+            <div class="card h-100 text-center">
+                <a th:href="@{/products/{id}(id=${perfume.id})}" class="text-decoration-none">
+                    <img th:src="@{${perfume.imageUrl}}" class="card-img-top p-3" alt="Zdjęcie produktu" style="height: 220px; object-fit: contain;">
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fs-6">
+                        <a th:href="@{/products/{id}(id=${perfume.id})}" class="text-decoration-none text-dark" th:text="${perfume.name}">Nazwa Perfum</a>
+                    </h5>
+                    <p class="card-text text-muted small" th:text="${perfume.brand?.name}">Nazwa Marki</p>
+                    <div class="mt-auto">
+                        <p class="h5" th:text="${perfume.price} + ' zł'">Cena</p>
+                        <form th:action="@{/cart/add/{perfumeId}(perfumeId=${perfume.id})}" method="post" class="mt-2">
+                            <button type="submit" class="btn btn-sm btn-outline-primary w-100">Dodaj do koszyka</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav th:if="${perfumePage.totalPages > 1}" aria-label="Stronicowanie" class="mt-5">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${perfumePage.isFirst()} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/products(page=${perfumePage.number - 1}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}">&laquo;</a>
             </li>
-            <li th:each="i : ${#numbers.sequence(0, perfumePage.totalPages - 1)}">
-                <a th:href="@{/products(page=${i}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}"
-                   th:text="${i + 1}"
-                   th:style="${i == perfumePage.number} ? 'font-weight: bold; text-decoration: none; color: black;' : 'text-decoration: underline; color: blue;'"></a>
+            <li th:each="i : ${#numbers.sequence(0, perfumePage.totalPages - 1)}"
+                class="page-item" th:classappend="${i == perfumePage.number} ? 'active' : ''">
+                <a class="page-link" th:href="@{/products(page=${i}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}"
+                   th:text="${i + 1}"></a>
             </li>
-            <li th:if="${perfumePage.hasNext()}">
-                <a th:href="@{/products(page=${perfumePage.number + 1}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}">Następna »</a>
+            <li class="page-item" th:classappend="${perfumePage.isLast()} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/products(page=${perfumePage.number + 1}, size=${perfumePage.size}, brandId=${selectedBrandId}, categoryId=${selectedCategoryId}, keyword=${selectedKeyword})}">&raquo;</a>
             </li>
         </ul>
     </nav>
-</div>
+</main>
 
-<br>
-<a th:href="@{/}">Powrót na stronę główną</a>
-
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

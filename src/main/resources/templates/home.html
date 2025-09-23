@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfumery</title>
-</head>
+<head th:replace="~{fragments/header :: head('Strona Główna')}"></head>
 <body>
-<h1>Witaj w naszej perfumerii!</h1>
-<a th:href="@{/products}">Zobacz naszą ofertę</a>
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 text-center">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Witaj w Perfumery!</h1>
+            <p class="col-md-8 fs-4 mx-auto">Odkryj świat wyjątkowych zapachów. Znajdź swój idealny perfum w naszej kolekcji.</p>
+            <a th:href="@{/products}" class="btn btn-primary btn-lg mt-3" type="button">Zobacz naszą ofertę</a>
+        </div>
+    </div>
+
+    <div class="row text-center mt-5">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Szeroki Wybór</h5>
+                    <p class="card-text">Setki perfum od najlepszych marek, czekające na odkrycie.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Gwarancja Jakości</h5>
+                    <p class="card-text">Tylko oryginalne produkty, dostarczane prosto do Twoich drzwi.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Szybka Dostawa</h5>
+                    <p class="card-text">Zamówienia realizujemy ekspresowo, dbając o każdy szczegół.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>
