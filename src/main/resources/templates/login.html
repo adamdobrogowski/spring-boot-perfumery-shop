@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Logowanie</title>
-</head>
+<head th:replace="~{fragments/header :: head('Zaloguj się')}"></head>
 <body>
-<h1>Zaloguj się</h1>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
 
-<div th:if="${param.error}" style="color: red;">
-    Niepoprawny e-mail lub hasło.
-</div>
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="card-title text-center mb-4">Zaloguj się</h1>
 
-<div th:if="${param.logout}" style="color: green;">
-    Pomyślnie wylogowano.
-</div>
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                        Niepoprawny e-mail lub hasło.
+                    </div>
 
-<form th:action="@{/login}" method="post">
-    <div>
-        <label for="username">E-mail:</label>
-        <input type="text" id="username" name="username" />
-    </div>
-    <div>
-        <label for="password">Hasło:</label>
-        <input type="password" id="password" name="password" />
-    </div>
-    <div style="margin-top: 10px; margin-bottom: 10px;">
-        <input type="checkbox" id="remember-me" name="remember-me" />
-        <label for="remember-me">Zapamiętaj mnie</label>
-    </div>
-    <div>
-        <button type="submit">Zaloguj</button>
-    </div>
-</form>
+                    <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                        Pomyślnie wylogowano.
+                    </div>
 
-<p>Nie masz konta? <a th:href="@{/register}">Zarejestruj się!</a></p>
+                    <div th:if="${param.register_success}" class="alert alert-success" role="alert">
+                        Rejestracja zakończona sukcesem! Możesz się teraz zalogować.
+                    </div>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">E-mail:</label>
+                            <input type="text" id="username" name="username" class="form-control" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Hasło:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" id="remember-me" name="remember-me" class="form-check-input">
+                            <label class="form-check-label" for="remember-me">Zapamiętaj mnie</label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Zaloguj się</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <p>Nie masz konta? <a th:href="@{/register}">Zarejestruj się!</a></p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
