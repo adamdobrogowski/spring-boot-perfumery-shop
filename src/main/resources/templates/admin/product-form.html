@@ -1,70 +1,78 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${perfume.id == null} ? 'Dodaj Produkt' : 'Edytuj Produkt'">Formularz Produktu</title>
-</head>
+<head th:replace="~{fragments/header :: head(${perfume.id == null} ? 'Dodaj Produkt' : 'Edytuj Produkt')}"></head>
 <body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
 
-<h1 th:text="${perfume.id == null} ? 'Dodaj nowy produkt' : 'Edytuj produkt'">Tytuł Formularza</h1>
+<main class="container mt-4">
+    <h1 th:text="${perfume.id == null} ? 'Dodaj nowy produkt' : 'Edytuj produkt'">Tytuł Formularza</h1>
+    <hr class="mb-4">
 
-<form th:action="${perfume.id == null} ? @{/admin/products/add} : @{/admin/products/edit/{id}(id=${perfume.id})}"
-      th:object="${perfume}" method="post">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form th:action="${perfume.id == null} ? @{/admin/products/add} : @{/admin/products/edit/{id}(id=${perfume.id})}"
+                  th:object="${perfume}" method="post">
 
-    <div>
-        <label for="name">Nazwa:</label><br>
-        <input type="text" id="name" th:field="*{name}">
-        <p style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-    </div>
-    <div>
-        <label for="brand">Marka:</label><br>
-        <select id="brand" th:field="*{brandId}">
-            <option value="">-- Wybierz markę --</option>
-            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
-        </select>
-        <p style="color:red" th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}"></p>
-    </div>
-    <div>
-        <label for="category">Kategoria:</label><br>
-        <select id="category" th:field="*{categoryId}">
-            <option value="">-- Wybierz kategorię --</option>
-            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-        </select>
-        <p style="color:red" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></p>
-    </div>
-    <div>
-        <label for="concentration">Koncentracja:</label><br>
-        <select id="concentration" th:field="*{concentration}">
-            <option value="">-- Wybierz koncentrację --</option>
-            <option th:each="conc : ${concentrations}" th:value="${conc}" th:text="${conc.displayName}"></option>
-        </select>
-        <p style="color:red" th:if="${#fields.hasErrors('concentration')}" th:errors="*{concentration}"></p>
-    </div>
-    <div>
-        <label for="price">Cena:</label><br>
-        <input type="number" step="0.01" id="price" th:field="*{price}">
-        <p style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
-    </div>
-    <div>
-        <label for="capacity">Pojemność (ml):</label><br>
-        <input type="number" id="capacity" th:field="*{capacity}">
-        <p style="color:red" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></p>
-    </div>
-    <div>
-        <label for="description">Opis:</label><br>
-        <textarea id="description" th:field="*{description}" rows="4" cols="50"></textarea>
-        <p style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
-    </div>
-    <div>
-        <label for="imageUrl">Ścieżka do obrazka (np. /images/obrazek.jpg):</label><br>
-        <input type="text" id="imageUrl" th:field="*{imageUrl}" size="50">
-    </div>
-    <br>
+                <div class="row g-3">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Nazwa:</label>
+                        <input type="text" id="name" class="form-control" th:field="*{name}">
+                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="brand" class="form-label">Marka:</label>
+                        <select id="brand" class="form-select" th:field="*{brandId}">
+                            <option value="">-- Wybierz markę --</option>
+                            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                        </select>
+                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="category" class="form-label">Kategoria:</label>
+                        <select id="category" class="form-select" th:field="*{categoryId}">
+                            <option value="">-- Wybierz kategorię --</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                        </select>
+                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="concentration" class="form-label">Koncentracja:</label>
+                        <select id="concentration" class="form-select" th:field="*{concentration}">
+                            <option value="">-- Wybierz koncentrację --</option>
+                            <option th:each="conc : ${concentrations}" th:value="${conc}" th:text="${conc.displayName}"></option>
+                        </select>
+                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('concentration')}" th:errors="*{concentration}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label">Cena:</label>
+                        <input type="number" step="0.01" id="price" class="form-control" th:field="*{price}">
+                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="capacity" class="form-label">Pojemność (ml):</label>
+                        <input type="number" id="capacity" class="form-control" th:field="*{capacity}">
+                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="description" class="form-label">Opis:</label>
+                        <textarea id="description" class="form-control" th:field="*{description}" rows="4"></textarea>
+                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="imageUrl" class="form-label">Ścieżka do obrazka (np. /images/obrazek.jpg):</label>
+                        <input type="text" id="imageUrl" class="form-control" th:field="*{imageUrl}">
+                    </div>
+                </div>
 
-    <button type="submit" th:text="${perfume.id == null} ? 'Dodaj Produkt' : 'Zapisz Zmiany'">Dodaj Produkt</button>
-</form>
-<br>
-<a th:href="@{/admin/products}">Anuluj i wróć do listy</a>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary" th:text="${perfume.id == null} ? 'Dodaj Produkt' : 'Zapisz Zmiany'"></button>
+                    <a th:href="@{/admin/products}" class="btn btn-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
 
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

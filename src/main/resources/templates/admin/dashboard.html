@@ -1,33 +1,52 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard - Panel Admina</title>
-</head>
+<head th:replace="~{fragments/header :: head('Dashboard')}"></head>
 <body>
-<h1>Witaj w panelu administratora!</h1>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
 
-<h2>Statystyki</h2>
-<div id="stats-container">
-    <p>Liczba produktów w bazie: <strong id="product-count">Ładowanie...</strong></p>
-    <p>Liczba złożonych zamówień: <strong id="order-count">Ładowanie...</strong></p>
-    <p>Liczba zarejestrowanych użytkowników: <strong id="user-count">Ładowanie...</strong></p>
-</div>
+<main class="container mt-4">
+    <h1 class="display-5 mb-4">Panel Administratora</h1>
 
-<hr>
-<p>Wybierz, czym chcesz zarządzać:</p>
-<ul>
-    <li><a th:href="@{/admin/products}">Zarządzaj Produktami</a></li>
-    <li><a th:href="@{/admin/brands}">Zarządzaj Markami</a></li>
-    <li><a th:href="@{/admin/orders}">Zarządzaj Zamówieniami</a></li>
-</ul>
-<hr>
-<div style="display: flex; align-items: center; gap: 15px;">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Wyloguj się</button>
-    </form>
-    <a th:href="@{/products}">Przejdź do sklepu</a>
-</div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Liczba Produktów</h5>
+                    <p class="display-4 fw-bold" id="product-count">...</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Liczba Zamówień</h5>
+                    <p class="display-4 fw-bold" id="order-count">...</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Liczba Użytkowników</h5>
+                    <p class="display-4 fw-bold" id="user-count">...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="text-center">
+        <h2 class="mb-4">Zarządzanie Sklepem</h2>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <a th:href="@{/admin/products}" class="btn btn-primary btn-lg">Zarządzaj Produktami</a>
+            <a th:href="@{/admin/brands}" class="btn btn-secondary btn-lg">Zarządzaj Markami</a>
+            <a th:href="@{/admin/orders}" class="btn btn-info btn-lg">Zarządzaj Zamówieniami</a>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -40,10 +59,11 @@
             })
             .catch(error => {
                 console.error('Błąd podczas pobierania statystyk:', error);
-                document.getElementById('stats-container').textContent = 'Nie udało się załadować statystyk.';
+                document.getElementById('product-count').textContent = 'Błąd';
+                document.getElementById('order-count').textContent = 'Błąd';
+                document.getElementById('user-count').textContent = 'Błąd';
             });
     });
 </script>
-
 </body>
 </html>

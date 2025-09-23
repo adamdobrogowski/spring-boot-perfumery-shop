@@ -1,46 +1,67 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Zarządzaj Markami</title>
-</head>
+<head th:replace="~{fragments/header :: head('Zarządzaj Markami')}"></head>
 <body>
-<h1>Zarządzaj Markami</h1>
-<a th:href="@{/admin/dashboard}">Powrót do dashboardu</a>
-<hr>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
 
-<h2>Dodaj nową markę</h2>
-<form th:action="@{/admin/brands/add}" th:object="${newBrand}" method="post">
-  <div>
-    <label for="name">Nazwa marki:</label>
-    <input type="text" id="name" th:field="*{name}" required>
+<main class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Zarządzaj Markami</h1>
+    <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary">Powrót do dashboardu</a>
   </div>
-  <div>
-    <label for="country">Kraj pochodzenia:</label>
-    <input type="text" id="country" th:field="*{countryOfOrigin}">
+
+  <div class="row g-5">
+    <div class="col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h2 class="h5 mb-0">Dodaj nową markę</h2>
+        </div>
+        <div class="card-body">
+          <form th:action="@{/admin/brands/add}" th:object="${newBrand}" method="post">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nazwa marki:</label>
+              <input type="text" id="name" th:field="*{name}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="country" class="form-label">Kraj pochodzenia:</label>
+              <input type="text" id="country" th:field="*{countryOfOrigin}" class="form-control">
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Dodaj Markę</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <h2 class="h5">Istniejące marki</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Kraj Pochodzenia</th>
+            <th scope="col">Akcje</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="brand : ${brands}">
+            <th scope="row" th:text="${brand.id}">1</th>
+            <td th:text="${brand.name}">Chanel</td>
+            <td th:text="${brand.countryOfOrigin}">Francja</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-outline-secondary">Edytuj</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <br>
-  <button type="submit">Dodaj Markę</button>
-</form>
+</main>
 
-<hr>
-
-<h2>Istniejące marki</h2>
-<table border="1">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Nazwa</th>
-    <th>Kraj Pochodzenia</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="brand : ${brands}">
-    <td th:text="${brand.id}">1</td>
-    <td th:text="${brand.name}">Chanel</td>
-    <td th:text="${brand.countryOfOrigin}">Francja</td>
-  </tr>
-  </tbody>
-</table>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
