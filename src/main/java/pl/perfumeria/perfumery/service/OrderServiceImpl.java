@@ -53,8 +53,6 @@ public class OrderServiceImpl implements OrderService {
         });
         order.setItems(orderItems);
 
-        orderRepository.save(order);
-
         Order savedOrder = orderRepository.save(order);
 
         cartService.clearCart();
