@@ -1,6 +1,7 @@
 package pl.perfumeria.perfumery.controller.api;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +21,10 @@ public class PerfumeRestController {
     }
 
     @GetMapping
-    public List<Perfume> getAllPerfumes() {
-        return perfumeRepository.findAll();
+    public ResponseEntity<List<Perfume>> getAllPerfumes() {
+        List<Perfume> result = perfumeRepository.findAll();
+        if(result.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(result);
     }
 
 }
