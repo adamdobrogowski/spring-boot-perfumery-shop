@@ -75,12 +75,5 @@ Do uruchomienia aplikacji lokalnie wymagany jest zainstalowany **Docker** i **Do
     ```
 4.  Aplikacja będzie dostępna pod adresem `http://localhost:8080`.
 
-**Dane logowania administratora:**
-* **E-mail:** `admin@gmail.com`
-* **Hasło:** `admin123`
-
-**Dane logowania przykładowego użytkownika:**
-* **E-mail:** `user@gmail.com`
-* **Hasło:** `haslo123`
 
 ---
