@@ -16,7 +16,8 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "order-seq")
     private Long id;
 
     private LocalDateTime orderDate;

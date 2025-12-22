@@ -15,7 +15,8 @@ import java.util.List;
 public class Brand {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "brand-seq")
     private Long id;
 
     private String name;
